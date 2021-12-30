@@ -10,14 +10,15 @@ const Tour = ({
   difficulty,
   duration,
   slug,
+  image,
 }) => {
   const [readMore, setReadMore] = useState(false);
   return (
     <article className="single-tour">
       <img
         src={
-          "https://dl.airtable.com/.attachments/a0cd0702c443f31526267f38ea5314a1/2447eb7a/paris.jpg"
-        }
+          image
+          }
         alt={name}
       />
       <footer>
@@ -39,6 +40,7 @@ const Tour = ({
 
 const Navbar = () => {
   let [reply, setReply] = useState([]);
+  let replys = [];
   const getData = async (url, data) => {
     let res = await axios.get(url);
     return res.data;
@@ -47,17 +49,20 @@ const Navbar = () => {
   let getAllTour = async () => {
     const url = `http://172.27.112.1:3000/api/v1/tours`;
     const newData = await getData(url);
-    console.log(newData.data.data)
+    console.log(newData.data.data);
     setReply(newData.data.data);
-    
   };
 
-  useEffect(async() => {
-    
-    const url = `http://172.27.112.1:3000/api/v1/tours`;
-    const newData = await getData(url);
-    console.log(newData.data.data)
-    setReply(newData.data.data);
+  useEffect(() => {
+    async function fetchData() {
+      const url = `http://172.27.112.1:3000/api/v1/tours`;
+      const newData = await getData(url);
+      console.log(newData.data.data);
+      replys = newData.data.data;
+      console.log(replys[0].name);
+      setReply(newData.data.data);
+    }
+    fetchData();
   }, []);
   return (
     <>
@@ -84,32 +89,22 @@ const Navbar = () => {
           <h2>our tours</h2>
           <div className="underline"></div>
         </div>
-        <div>
-          
-          {reply.forEach((tour) => {
+        <div className="mainContent">
+          {reply.map((e) => {
             return (
               <Tour
                 id={1}
-                info="this is the tour"
-                name="testing Tour"
-                price={1400}
-                ratingsAverage={4}
-                difficulty="easy"
-                duration={7}
-                slug="mountain-grind-31"
+                image={e.imageCover}
+                summary={e.summary}
+                name={e.name}
+                price={e.price}
+                ratingsAverage={e.ratingsAverage}
+                difficulty={e.difficulty}
+                duration={e.duration}
+                slug={e.slug}
               ></Tour>
             );
           })}
-          <Tour
-                id={1}
-                info={reply[0].name}
-                name="testing Tour"
-                price={1400}
-                ratingsAverage={4}
-                difficulty="easy"
-                duration={7}
-                slug="mountain-grind-31"
-              ></Tour>
         </div>
       </section>
     </>

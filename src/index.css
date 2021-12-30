@@ -439,6 +439,9 @@ main {
   cursor: pointer;
   padding-left: 0.25rem;
 }
+.mainContent{
+  padding: 0.25rem 0.5rem;
+}
 .tour-price {
   color: var(--clr-primary-5);
   background: var(--clr-primary-10);
@@ -452,7 +455,8 @@ main {
   
 }
 .single-tour footer {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2rem ;
+  padding-left: 2rem;
 }
 .single-tour .delete-btn {
   display: block;
